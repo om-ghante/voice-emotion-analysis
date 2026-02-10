@@ -62,7 +62,7 @@ def analyze_audio(audio_path: str, chunk_duration: float = 2.0) -> dict:
     raw_segments = []
     for chunk in chunks:
         # Save chunk to temporary wav for SpeechBrain inference
-        with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp:
+        with tempfile.NamedTemporaryFile(suffix=".wav", delete=False, dir=tempfile.gettempdir()) as tmp:
             tmp_path = tmp.name
             sf.write(tmp_path, chunk["waveform"], chunk["sample_rate"])
 

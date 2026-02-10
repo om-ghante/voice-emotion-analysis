@@ -101,7 +101,7 @@ def predict_emotion_from_waveform(waveform: torch.Tensor, sample_rate: int) -> d
     """
     import tempfile
 
-    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp:
+    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False, dir=tempfile.gettempdir()) as tmp:
         tmp_path = tmp.name
         torchaudio.save(tmp_path, waveform, sample_rate)
 

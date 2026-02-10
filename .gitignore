@@ -12,6 +12,7 @@ build/
 # Uploads
 uploads/*.wav
 uploads/*.mp3
+tmp*.wav
 
 # Model cache
 models/pretrained_models/
