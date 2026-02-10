@@ -233,3 +233,4 @@ The model detects four emotion categories:
 ## License
 
 This project is provided for educational and demonstration purposes.
+# voice-emotion-analysis
