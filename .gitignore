@@ -15,10 +15,12 @@ uploads/*.mp3
 
 # Model cache
 models/pretrained_models/
+wav2vec2_checkpoints/
 
 # IDE
 .vscode/
 .idea/
+.streamlit/
 
 # OS
 .DS_Store

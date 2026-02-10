@@ -24,6 +24,7 @@ streamlit run dashboard/dashboard.py \
     --server.port "$PORT" \
     --server.address 0.0.0.0 \
     --server.headless true \
+    --server.enableCORS true \
     --browser.gatherUsageStats false \
     --theme.base light \
     --theme.primaryColor "#1a1a1a" \

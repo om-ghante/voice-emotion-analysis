@@ -20,6 +20,17 @@ _SAVEDIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "pretrained_
 # Emotion label mapping from the IEMOCAP model
 EMOTION_LABELS = ["angry", "happy", "neutral", "sad"]
 
+# Map abbreviated model labels to full names
+LABEL_MAP = {
+    "neu": "neutral",
+    "hap": "happy",
+    "ang": "angry",
+    "sad": "sad",
+    "neutral": "neutral",
+    "happy": "happy",
+    "angry": "angry",
+}
+
 
 def _get_model():
     """
@@ -62,6 +73,7 @@ def predict_emotion(audio_path: str) -> dict:
 
     probabilities = out_prob.squeeze().tolist()
     predicted_label = text_lab[0].lower()
+    predicted_label = LABEL_MAP.get(predicted_label, predicted_label)
     confidence = score.item()
 
     scores = {}

@@ -150,5 +150,5 @@ def get_audio_duration(filepath: str) -> float:
     Returns:
         Duration in seconds.
     """
-    duration = librosa.get_duration(filename=filepath)
+    duration = librosa.get_duration(path=filepath)
     return round(duration, 2)
