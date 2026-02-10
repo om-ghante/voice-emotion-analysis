@@ -1,0 +1,251 @@
+/* ============================================
+   Voice Emotion Analysis - Minimal Stylesheet
+   Color Palette: Black, White, Gray only
+   No gradients, no animations
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.header p {
+    font-size: 14px;
+    color: #757575;
+}
+
+/* Upload Section */
+.upload-section {
+    margin-bottom: 40px;
+}
+
+.upload-area {
+    border: 2px dashed #cccccc;
+    border-radius: 8px;
+    padding: 48px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.upload-area:hover {
+    border-color: #999999;
+}
+
+.upload-area p {
+    font-size: 15px;
+    color: #555555;
+    margin-bottom: 16px;
+}
+
+.upload-area .hint {
+    font-size: 12px;
+    color: #999999;
+}
+
+/* File Input */
+input[type="file"] {
+    display: none;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: #333333;
+}
+
+.btn-primary:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.btn-secondary {
+    background-color: #f5f5f5;
+    color: #1a1a1a;
+    border: 1px solid #e0e0e0;
+}
+
+.btn-secondary:hover {
+    background-color: #eeeeee;
+}
+
+/* Status Messages */
+.status {
+    text-align: center;
+    padding: 16px;
+    margin: 16px 0;
+    font-size: 14px;
+}
+
+.status-loading {
+    color: #555555;
+}
+
+.status-error {
+    color: #d32f2f;
+}
+
+.status-success {
+    color: #1a1a1a;
+}
+
+/* Results Section */
+.results-section {
+    margin-top: 40px;
+}
+
+.results-section h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.duration-label {
+    font-size: 14px;
+    color: #757575;
+    margin-bottom: 24px;
+}
+
+/* Segment Table */
+.segment-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 32px;
+}
+
+.segment-table th,
+.segment-table td {
+    padding: 10px 16px;
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.segment-table th {
+    font-weight: 600;
+    color: #1a1a1a;
+    background-color: #fafafa;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.segment-table td {
+    color: #333333;
+}
+
+.segment-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Emotion Label */
+.emotion-label {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    background-color: #f0f0f0;
+    color: #333333;
+}
+
+/* Summary Section */
+.summary-section {
+    margin-top: 32px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.summary-emotion {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333333;
+}
+
+.summary-bar-container {
+    flex: 1;
+    margin: 0 16px;
+    height: 6px;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.summary-bar {
+    height: 100%;
+    background-color: #555555;
+    border-radius: 3px;
+}
+
+.summary-percentage {
+    font-size: 13px;
+    color: #757575;
+    min-width: 48px;
+    text-align: right;
+}
+
+/* Footer */
+.footer {
+    margin-top: 64px;
+    padding-top: 16px;
+    border-top: 1px solid #e0e0e0;
+    text-align: center;
+    font-size: 12px;
+    color: #999999;
+}

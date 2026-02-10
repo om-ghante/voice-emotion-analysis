@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Voice Emotion Analysis - Upload audio files and detect emotions with precise timestamps.">
+    <title>Voice Emotion Analysis</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Voice Emotion Analysis</h1>
+            <p>Upload an audio file to detect emotions with time-based tracking</p>
+        </div>
+
+        <div class="upload-section">
+            <form id="uploadForm" enctype="multipart/form-data">
+                <div class="upload-area" id="uploadArea">
+                    <p>Click to select an audio file</p>
+                    <span class="hint">Supported formats: WAV, MP3 (max 50 MB)</span>
+                    <input type="file" id="audioFile" name="audio" accept=".wav,.mp3">
+                </div>
+                <div id="fileName" style="text-align: center; margin: 12px 0; font-size: 14px; color: #555;"></div>
+                <div style="text-align: center; margin-top: 16px;">
+                    <button type="submit" class="btn btn-primary" id="analyzeBtn" disabled>Analyze</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="statusArea" class="status" style="display: none;"></div>
+
+        <div id="resultsSection" class="results-section" style="display: none;">
+            <h2>Analysis Results</h2>
+            <div class="duration-label" id="durationLabel"></div>
+
+            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">Emotion Timeline</h3>
+            <table class="segment-table" id="segmentTable">
+                <thead>
+                    <tr>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Emotion</th>
+                    </tr>
+                </thead>
+                <tbody id="segmentTableBody">
+                </tbody>
+            </table>
+
+            <div class="summary-section">
+                <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 12px;">Emotion Distribution</h3>
+                <div id="summaryContainer"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Voice Emotion Analysis Dashboard</p>
+        </div>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById("uploadArea");
+        const fileInput = document.getElementById("audioFile");
+        const fileNameDisplay = document.getElementById("fileName");
+        const analyzeBtn = document.getElementById("analyzeBtn");
+        const uploadForm = document.getElementById("uploadForm");
+        const statusArea = document.getElementById("statusArea");
+        const resultsSection = document.getElementById("resultsSection");
+
+        // Click to select file
+        uploadArea.addEventListener("click", function () {
+            fileInput.click();
+        });
+
+        // File selected
+        fileInput.addEventListener("change", function () {
+            if (fileInput.files.length > 0) {
+                fileNameDisplay.textContent = "Selected: " + fileInput.files[0].name;
+                analyzeBtn.disabled = false;
+            } else {
+                fileNameDisplay.textContent = "";
+                analyzeBtn.disabled = true;
+            }
+        });
+
+        // Drag and drop support
+        uploadArea.addEventListener("dragover", function (e) {
+            e.preventDefault();
+            uploadArea.style.borderColor = "#999";
+        });
+
+        uploadArea.addEventListener("dragleave", function () {
+            uploadArea.style.borderColor = "#ccc";
+        });
+
+        uploadArea.addEventListener("drop", function (e) {
+            e.preventDefault();
+            uploadArea.style.borderColor = "#ccc";
+            if (e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                fileNameDisplay.textContent = "Selected: " + e.dataTransfer.files[0].name;
+                analyzeBtn.disabled = false;
+            }
+        });
+
+        // Form submission
+        uploadForm.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            if (!fileInput.files.length) return;
+
+            analyzeBtn.disabled = true;
+            analyzeBtn.textContent = "Analyzing...";
+            statusArea.style.display = "block";
+            statusArea.className = "status status-loading";
+            statusArea.textContent = "Processing audio file. This may take a moment...";
+            resultsSection.style.display = "none";
+
+            const formData = new FormData();
+            formData.append("audio", fileInput.files[0]);
+
+            try {
+                const response = await fetch("/upload", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.status === "success") {
+                    statusArea.className = "status status-success";
+                    statusArea.textContent = "Analysis complete.";
+                    displayResults(data);
+                } else {
+                    statusArea.className = "status status-error";
+                    statusArea.textContent = data.error || "An error occurred during analysis.";
+                }
+            } catch (error) {
+                statusArea.className = "status status-error";
+                statusArea.textContent = "Failed to connect to the server.";
+            } finally {
+                analyzeBtn.disabled = false;
+                analyzeBtn.textContent = "Analyze";
+            }
+        });
+
+        function displayResults(data) {
+            resultsSection.style.display = "block";
+
+            // Duration
+            document.getElementById("durationLabel").textContent = "Total Duration: " + data.duration;
+
+            // Segment table
+            const tbody = document.getElementById("segmentTableBody");
+            tbody.innerHTML = "";
+            data.segments.forEach(function (seg) {
+                const row = document.createElement("tr");
+                row.innerHTML =
+                    "<td>" + seg.start + "</td>" +
+                    "<td>" + seg.end + "</td>" +
+                    '<td><span class="emotion-label">' + seg.emotion + "</span></td>";
+                tbody.appendChild(row);
+            });
+
+            // Summary
+            const summaryContainer = document.getElementById("summaryContainer");
+            summaryContainer.innerHTML = "";
+            if (data.summary) {
+                Object.keys(data.summary).forEach(function (emotion) {
+                    const info = data.summary[emotion];
+                    const item = document.createElement("div");
+                    item.className = "summary-item";
+                    item.innerHTML =
+                        '<span class="summary-emotion">' + emotion + "</span>" +
+                        '<div class="summary-bar-container">' +
+                        '<div class="summary-bar" style="width: ' + info.percentage + '%;"></div>' +
+                        "</div>" +
+                        '<span class="summary-percentage">' + info.percentage + "%</span>";
+                    summaryContainer.appendChild(item);
+                });
+            }
+        }
+    </script>
+</body>
+</html>

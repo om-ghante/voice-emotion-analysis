@@ -1,0 +1,26 @@
+# Core framework
+flask==3.0.0
+gunicorn==21.2.0
+streamlit==1.31.0
+
+# Machine Learning and Audio (CPU-only for Render)
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.2.0+cpu
+torchaudio==2.2.0+cpu
+speechbrain==1.0.0
+librosa==0.10.1
+soundfile==0.12.1
+numpy<2.0.0
+
+# Visualization
+matplotlib==3.8.2
+plotly==5.18.0
+
+# Data
+pandas==2.1.4
+
+# HTTP
+requests==2.31.0
+
+# Utilities
+werkzeug==3.0.1
