@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Voice Emotion Analysis - Upload audio files and detect emotions with precise timestamps.">
+    <meta name="description" content="Voice Emotion Analysis">
     <title>Voice Emotion Analysis</title>
     <link rel="stylesheet" href="/static/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -70,12 +72,10 @@
         const statusArea = document.getElementById("statusArea");
         const resultsSection = document.getElementById("resultsSection");
 
-        // Click to select file
         uploadArea.addEventListener("click", function () {
             fileInput.click();
         });
 
-        // File selected
         fileInput.addEventListener("change", function () {
             if (fileInput.files.length > 0) {
                 fileNameDisplay.textContent = "Selected: " + fileInput.files[0].name;
@@ -86,19 +86,18 @@
             }
         });
 
-        // Drag and drop support
         uploadArea.addEventListener("dragover", function (e) {
             e.preventDefault();
             uploadArea.style.borderColor = "#999";
         });
 
         uploadArea.addEventListener("dragleave", function () {
-            uploadArea.style.borderColor = "#ccc";
+            uploadArea.style.borderColor = "#b0bec5";
         });
 
         uploadArea.addEventListener("drop", function (e) {
             e.preventDefault();
-            uploadArea.style.borderColor = "#ccc";
+            uploadArea.style.borderColor = "#b0bec5";
             if (e.dataTransfer.files.length > 0) {
                 fileInput.files = e.dataTransfer.files;
                 fileNameDisplay.textContent = "Selected: " + e.dataTransfer.files[0].name;
@@ -106,7 +105,6 @@
             }
         });
 
-        // Form submission
         uploadForm.addEventListener("submit", async function (e) {
             e.preventDefault();
 
@@ -116,7 +114,7 @@
             analyzeBtn.textContent = "Analyzing...";
             statusArea.style.display = "block";
             statusArea.className = "status status-loading";
-            statusArea.textContent = "Processing audio file. This may take a moment...";
+            statusArea.innerHTML = '<div class="spinner"></div>Processing audio file. This may take a moment...';
             resultsSection.style.display = "none";
 
             const formData = new FormData();
@@ -150,10 +148,8 @@
         function displayResults(data) {
             resultsSection.style.display = "block";
 
-            // Duration
             document.getElementById("durationLabel").textContent = "Total Duration: " + data.duration;
 
-            // Segment table
             const tbody = document.getElementById("segmentTableBody");
             tbody.innerHTML = "";
             data.segments.forEach(function (seg) {
@@ -165,7 +161,6 @@
                 tbody.appendChild(row);
             });
 
-            // Summary
             const summaryContainer = document.getElementById("summaryContainer");
             summaryContainer.innerHTML = "";
             if (data.summary) {
@@ -185,4 +180,5 @@
         }
     </script>
 </body>
+
 </html>

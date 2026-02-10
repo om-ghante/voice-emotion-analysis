@@ -1,34 +1,19 @@
-# Virtual environment
 venv/
 .venv/
-
-# Python
 __pycache__/
 *.py[cod]
 *.egg-info/
 dist/
 build/
-
-# Uploads
 uploads/*.wav
 uploads/*.mp3
 tmp*.wav
-
-# Model cache
 models/pretrained_models/
 wav2vec2_checkpoints/
-
-# IDE
 .vscode/
 .idea/
 .streamlit/
-
-# OS
 .DS_Store
 Thumbs.db
-
-# Environment
 .env
-
-# Git Context profile data
 .gitcontext/

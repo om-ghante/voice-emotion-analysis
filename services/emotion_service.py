@@ -1,8 +1,3 @@
-"""
-Core Emotion Analysis Pipeline Service.
-Orchestrates the entire analysis flow: chunking, prediction, merging, and formatting.
-"""
-
 import os
 import logging
 import tempfile
@@ -13,41 +8,12 @@ from utils.time_utils import seconds_to_mmss, format_duration, format_segment
 
 logger = logging.getLogger(__name__)
 
-
 def analyze_audio(audio_path: str, chunk_duration: float = 2.0) -> dict:
-    """
-    Run the full emotion analysis pipeline on an audio file.
-
-    Steps:
-        1. Validate audio file exists
-        2. Get total duration
-        3. Chunk audio into segments
-        4. Predict emotion for each chunk
-        5. Merge consecutive identical emotions
-        6. Format timestamps to MM:SS
-
-    Args:
-        audio_path: Path to the audio file.
-        chunk_duration: Duration of each analysis chunk in seconds.
-
-    Returns:
-        Dictionary containing:
-            - 'duration': total duration as MM:SS string
-            - 'duration_seconds': total duration in seconds
-            - 'segments': list of emotion segments with start, end, emotion
-            - 'raw_segments': list of per-chunk results before merging
-            - 'summary': emotion distribution summary
-    """
     if not os.path.exists(audio_path):
         raise FileNotFoundError(f"Audio file not found: {audio_path}")
 
-    # Step 1: Get total duration
     total_duration = get_audio_duration(audio_path)
-    logger.info(f"Analyzing audio: {audio_path} (duration: {total_duration:.2f}s)")
-
-    # Step 2: Chunk audio
     chunks = chunk_audio(audio_path, chunk_duration=chunk_duration)
-    logger.info(f"Created {len(chunks)} chunks")
 
     if not chunks:
         return {
@@ -58,10 +24,8 @@ def analyze_audio(audio_path: str, chunk_duration: float = 2.0) -> dict:
             "summary": {},
         }
 
-    # Step 3: Predict emotion for each chunk
     raw_segments = []
     for chunk in chunks:
-        # Save chunk to temporary wav for SpeechBrain inference
         with tempfile.NamedTemporaryFile(suffix=".wav", delete=False, dir=tempfile.gettempdir()) as tmp:
             tmp_path = tmp.name
             sf.write(tmp_path, chunk["waveform"], chunk["sample_rate"])
@@ -76,24 +40,18 @@ def analyze_audio(audio_path: str, chunk_duration: float = 2.0) -> dict:
                 "scores": result["scores"],
                 "chunk_index": chunk["chunk_index"],
             })
-            logger.debug(f"Chunk {chunk['chunk_index']}: "
-                         f"{chunk['start_sec']:.2f}s - {chunk['end_sec']:.2f}s -> "
-                         f"{result['emotion']} ({result['confidence']:.4f})")
         finally:
             if os.path.exists(tmp_path):
                 os.remove(tmp_path)
 
-    # Step 4: Merge consecutive identical emotions
     merged_segments = _merge_consecutive_emotions(raw_segments)
 
-    # Step 5: Format segments with MM:SS timestamps
     formatted_segments = []
     for seg in merged_segments:
         formatted_segments.append(format_segment(
             seg["start_sec"], seg["end_sec"], seg["emotion"]
         ))
 
-    # Step 6: Compute emotion distribution summary
     summary = _compute_emotion_summary(raw_segments, total_duration)
 
     return {
@@ -112,17 +70,7 @@ def analyze_audio(audio_path: str, chunk_duration: float = 2.0) -> dict:
         "summary": summary,
     }
 
-
 def _merge_consecutive_emotions(segments: list) -> list:
-    """
-    Merge consecutive segments that share the same emotion label.
-
-    Args:
-        segments: List of raw segment dictionaries.
-
-    Returns:
-        List of merged segment dictionaries.
-    """
     if not segments:
         return []
 
@@ -145,21 +93,9 @@ def _merge_consecutive_emotions(segments: list) -> list:
             }
 
     merged.append(current.copy())
-    logger.info(f"Merged {len(segments)} chunks into {len(merged)} segments")
     return merged
 
-
 def _compute_emotion_summary(raw_segments: list, total_duration: float) -> dict:
-    """
-    Compute emotion distribution as percentage of total time.
-
-    Args:
-        raw_segments: List of per-chunk segment dictionaries.
-        total_duration: Total audio duration in seconds.
-
-    Returns:
-        Dictionary mapping emotion labels to their percentage of total time.
-    """
     if not raw_segments or total_duration == 0:
         return {}
 

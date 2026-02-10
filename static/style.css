@@ -1,9 +1,3 @@
-/* ============================================
-   Voice Emotion Analysis - Minimal Stylesheet
-   Color Palette: Black, White, Gray only
-   No gradients, no animations
-   ============================================ */
-
 * {
     margin: 0;
     padding: 0;
@@ -13,7 +7,7 @@
 body {
     font-family: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
     background-color: #ffffff;
-    color: #1a1a1a;
+    color: #003366;
     line-height: 1.6;
 }
 
@@ -23,7 +17,6 @@ body {
     padding: 40px 24px;
 }
 
-/* Header */
 .header {
     text-align: center;
     margin-bottom: 48px;
@@ -34,51 +27,51 @@ body {
 .header h1 {
     font-size: 28px;
     font-weight: 600;
-    color: #1a1a1a;
+    color: #003366;
     margin-bottom: 8px;
     letter-spacing: -0.5px;
 }
 
 .header p {
     font-size: 14px;
-    color: #757575;
+    color: #546e7a;
 }
 
-/* Upload Section */
 .upload-section {
     margin-bottom: 40px;
 }
 
 .upload-area {
-    border: 2px dashed #cccccc;
+    border: 2px dashed #b0bec5;
     border-radius: 8px;
     padding: 48px 24px;
     text-align: center;
     cursor: pointer;
     transition: border-color 0.2s ease;
+    background-color: #fafafa;
 }
 
 .upload-area:hover {
-    border-color: #999999;
+    border-color: #003366;
+    background-color: #f0f4f8;
 }
 
 .upload-area p {
     font-size: 15px;
-    color: #555555;
+    color: #003366;
     margin-bottom: 16px;
+    font-weight: 500;
 }
 
 .upload-area .hint {
     font-size: 12px;
-    color: #999999;
+    color: #78909c;
 }
 
-/* File Input */
 input[type="file"] {
     display: none;
 }
 
-/* Buttons */
 .btn {
     display: inline-block;
     padding: 10px 24px;
@@ -91,50 +84,74 @@ input[type="file"] {
 }
 
 .btn-primary {
-    background-color: #1a1a1a;
+    background-color: #003366;
     color: #ffffff;
 }
 
 .btn-primary:hover {
-    background-color: #333333;
+    background-color: #002244;
 }
 
 .btn-primary:disabled {
-    background-color: #cccccc;
+    background-color: #cfd8dc;
     cursor: not-allowed;
 }
 
 .btn-secondary {
-    background-color: #f5f5f5;
-    color: #1a1a1a;
-    border: 1px solid #e0e0e0;
+    background-color: #eceff1;
+    color: #003366;
+    border: 1px solid #cfd8dc;
 }
 
 .btn-secondary:hover {
-    background-color: #eeeeee;
+    background-color: #cfd8dc;
 }
 
-/* Status Messages */
+.spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(0, 51, 102, 0.2);
+    border-radius: 50%;
+    border-top-color: #003366;
+    animation: spin 1s ease-in-out infinite;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 .status {
     text-align: center;
     padding: 16px;
     margin: 16px 0;
     font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
 }
 
 .status-loading {
-    color: #555555;
+    color: #546e7a;
+    background-color: #eceff1;
+    border: 1px solid #b0bec5;
 }
 
 .status-error {
-    color: #d32f2f;
+    color: #003366;
+    background-color: #fce4ec;
+    border: 1px solid #003366;
 }
 
 .status-success {
-    color: #1a1a1a;
+    color: #003366;
+    background-color: #e8eaf6;
+    border: 1px solid #c5cae9;
 }
 
-/* Results Section */
 .results-section {
     margin-top: 40px;
 }
@@ -142,7 +159,7 @@ input[type="file"] {
 .results-section h2 {
     font-size: 20px;
     font-weight: 600;
-    color: #1a1a1a;
+    color: #003366;
     margin-bottom: 16px;
     padding-bottom: 8px;
     border-bottom: 1px solid #e0e0e0;
@@ -150,11 +167,10 @@ input[type="file"] {
 
 .duration-label {
     font-size: 14px;
-    color: #757575;
+    color: #546e7a;
     margin-bottom: 24px;
 }
 
-/* Segment Table */
 .segment-table {
     width: 100%;
     border-collapse: collapse;
@@ -166,36 +182,34 @@ input[type="file"] {
     padding: 10px 16px;
     text-align: left;
     font-size: 14px;
-    border-bottom: 1px solid #eeeeee;
+    border-bottom: 1px solid #eceff1;
 }
 
 .segment-table th {
     font-weight: 600;
-    color: #1a1a1a;
+    color: #003366;
     background-color: #fafafa;
-    border-bottom: 2px solid #e0e0e0;
+    border-bottom: 2px solid #cfd8dc;
 }
 
 .segment-table td {
-    color: #333333;
+    color: #263238;
 }
 
 .segment-table tr:last-child td {
     border-bottom: none;
 }
 
-/* Emotion Label */
 .emotion-label {
     display: inline-block;
     padding: 3px 10px;
     border-radius: 4px;
     font-size: 13px;
     font-weight: 500;
-    background-color: #f0f0f0;
-    color: #333333;
+    background-color: #e8eaf6;
+    color: #003366;
 }
 
-/* Summary Section */
 .summary-section {
     margin-top: 32px;
 }
@@ -205,7 +219,7 @@ input[type="file"] {
     justify-content: space-between;
     align-items: center;
     padding: 8px 0;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid #eceff1;
 }
 
 .summary-item:last-child {
@@ -215,37 +229,36 @@ input[type="file"] {
 .summary-emotion {
     font-size: 14px;
     font-weight: 500;
-    color: #333333;
+    color: #263238;
 }
 
 .summary-bar-container {
     flex: 1;
     margin: 0 16px;
     height: 6px;
-    background-color: #f0f0f0;
+    background-color: #eceff1;
     border-radius: 3px;
     overflow: hidden;
 }
 
 .summary-bar {
     height: 100%;
-    background-color: #555555;
+    background-color: #003366;
     border-radius: 3px;
 }
 
 .summary-percentage {
     font-size: 13px;
-    color: #757575;
+    color: #546e7a;
     min-width: 48px;
     text-align: right;
 }
 
-/* Footer */
 .footer {
     margin-top: 64px;
     padding-top: 16px;
     border-top: 1px solid #e0e0e0;
     text-align: center;
     font-size: 12px;
-    color: #999999;
+    color: #90a4ae;
 }
